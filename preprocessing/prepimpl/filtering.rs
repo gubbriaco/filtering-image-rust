@@ -1,7 +1,5 @@
-use crate::preprocessing::prepimpl::asm::mac::mac_inline_pub;
 use crate::preprocessing::prepimpl::asm::product::product_pub;
 use crate::preprocessing::prepimpl::asm::add::add_pub;
-use std::arch::asm;
 
 
 pub fn mac_pub(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32, i: u32, j: u32) {
@@ -10,6 +8,7 @@ pub fn mac_pub(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksi
 
 
 fn mac(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32, i: u32, j: u32) {
+
     let mut ret0: u32 = 0;
     let mut ret1: u32 = 0;
     let mut ret2: u32 = 0;
@@ -40,11 +39,6 @@ fn mac(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32,
             product2 = product_pub(pixel[2], k_val);
             ret2 = add_pub(ret2, product2);
 
-            /*
-            ret0 += mac_inline_pub(pixel[0] as u32, k_val as u32, ret0);
-            ret1 += mac_inline_pub(pixel[1] as u32, k_val as u32, ret1);
-            ret2 += mac_inline_pub(pixel[2] as u32, k_val as u32, ret2);
-*/
         }
     }
 
@@ -53,10 +47,5 @@ fn mac(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32,
     pixels_matrix[i as usize][j as usize][0 as usize] = (ret0 / kernel_sum) as u8;
     pixels_matrix[i as usize][j as usize][1 as usize] = (ret1 / kernel_sum) as u8;
     pixels_matrix[i as usize][j as usize][2 as usize] = (ret2 / kernel_sum) as u8;
-    /*
-    // Normalizzazione in assembly inclusa nel risultato finale
-    pixels_matrix[i as usize][j as usize][0 as usize] = (ret0 / kernel_sum) as u8;
-    pixels_matrix[i as usize][j as usize][1 as usize] = (ret1 / kernel_sum) as u8;
-    pixels_matrix[i as usize][j as usize][2 as usize] = (ret2 / kernel_sum) as u8;
-    */
+
 }

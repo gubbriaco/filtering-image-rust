@@ -10,8 +10,8 @@ fn product(pixel:u8, k_val:u8) -> u32 {
     let product: u32;
     unsafe {
         asm!(
-            "mov {0}, {1}",
-            "imul {0}, {2}",
+            "mov {0:e}, {1:e}",
+            "imul {0:e}, {2:e}",
             out(reg) product,
             in(reg) pixel as u32,
             in(reg) k_val as u32,
