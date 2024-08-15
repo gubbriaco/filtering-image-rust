@@ -1,12 +1,12 @@
 use std::arch::asm;
 
 
-pub fn add_pub(ret:u32, product:u32) -> u32 {
-    add(ret, product)
+pub fn add_asm_pub(ret:u32, product:u32) -> u32 {
+    add_asm(ret, product)
 }
 
 
-fn add(ret:u32, product:u32) -> u32 {
+fn add_asm(ret:u32, product:u32) -> u32 {
     let add: u32;
     unsafe {
         asm!(

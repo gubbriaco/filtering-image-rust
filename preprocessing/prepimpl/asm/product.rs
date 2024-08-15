@@ -1,20 +1,20 @@
 use std::arch::asm;
 
 
-pub fn product_pub(pixel:u8, k_val:u8) -> u32 {
-    product(pixel, k_val)
+pub fn product_asm_pub(pixel:u32, k_val:u32) -> u32 {
+    product_asm(pixel, k_val)
 }
 
 
-fn product(pixel:u8, k_val:u8) -> u32 {
+fn product_asm(pixel:u32, k_val:u32) -> u32 {
     let product: u32;
     unsafe {
         asm!(
             "mov {0:e}, {1:e}",
             "imul {0:e}, {2:e}",
             out(reg) product,
-            in(reg) pixel as u32,
-            in(reg) k_val as u32,
+            in(reg) pixel,
+            in(reg) k_val,
         );
     }
     product

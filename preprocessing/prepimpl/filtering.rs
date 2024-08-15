@@ -1,5 +1,4 @@
-use crate::preprocessing::prepimpl::asm::product::product_pub;
-use crate::preprocessing::prepimpl::asm::add::add_pub;
+use crate::preprocessing::prepimpl::asm::mac::mac_asm_pub;
 
 
 pub fn mac_pub(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32, i: u32, j: u32) {
@@ -27,17 +26,9 @@ fn mac(pixels_matrix: &mut Vec<Vec<[u8; 3]>>, kernel: &Vec<Vec<u8>>, ksize: u32,
             ret2 += pixel[2] as u32 * k_val as u32;
             */
 
-            let product0: u32;
-            product0 = product_pub(pixel[0], k_val);
-            ret0 = add_pub(ret0, product0);
-
-            let product1: u32;
-            product1 = product_pub(pixel[1], k_val);
-            ret1 = add_pub(ret1, product1);
-
-            let product2: u32;
-            product2 = product_pub(pixel[2], k_val);
-            ret2 = add_pub(ret2, product2);
+            ret0 = mac_asm_pub(pixel[0], k_val, ret0);
+            ret1 = mac_asm_pub(pixel[1], k_val, ret1);
+            ret2 = mac_asm_pub(pixel[2], k_val, ret2);
 
         }
     }
