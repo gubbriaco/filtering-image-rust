@@ -2,6 +2,9 @@ use std::time::{Instant};
 mod utils;
 mod preprocessing;
 use crate::preprocessing::prep::preprocess_pub;
+use std::env;
+use std::fs;
+
 
 pub fn main() {
 
@@ -17,8 +20,17 @@ pub fn main() {
     ];
 
     let curr = std::env::current_dir().expect("Failed to get current directory");
-    let inpath = curr.join("noisy.png");
-    let outpath = curr.join("out.png");
+    let args:Vec<String> = env::args().collect();
+    let idx_img = args[1].parse::<u8>().unwrap();
+
+    let mut inpath = curr.join(&format!("images/{:?}/in.png", idx_img));
+    let mut outpath = curr.join(&format!("images/{:?}/out.png", idx_img));
+
+    if !fs::metadata(inpath.clone()).is_ok() {
+        inpath = curr.join(&format!("images/{:?}/in.jpg", idx_img));
+        outpath = curr.join(&format!("images/{:?}/out.jpg", idx_img));
+    }
+
 
     let inimg = image::open(&inpath).expect(&format!("Failed to open image {}", inpath.display()));
 
